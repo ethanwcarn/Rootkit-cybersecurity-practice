@@ -6,7 +6,7 @@ namespace RootkitAuth.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RootbeersController(RootbeerDbContext dbContext) : ControllerBase
+public class RootbeersController(ApplicationDbContext dbContext) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetRootbeers(

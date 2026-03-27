@@ -1,11 +1,10 @@
 import { Rootbeer } from '../types/Rootbeer';
+import { apiGet } from './apiClient';
 
 interface PagedRootbeerResponse {
   rootbeers: Rootbeer[];
   totalCount: number;
 }
-
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? '';
 
 export async function getRootbeers(
   pageSize: number,
@@ -21,21 +20,9 @@ export async function getRootbeers(
     searchParams.append('containers', container);
   });
 
-  const response = await fetch(`${apiBaseUrl}/api/rootbeers?${searchParams}`);
-
-  if (!response.ok) {
-    throw new Error('Unable to load rootbeers.');
-  }
-
-  return response.json();
+  return apiGet<PagedRootbeerResponse>(`/api/rootbeers?${searchParams}`);
 }
 
 export async function getContainerTypes(): Promise<string[]> {
-  const response = await fetch(`${apiBaseUrl}/api/rootbeers/containers`);
-
-  if (!response.ok) {
-    throw new Error('Unable to load container types.');
-  }
-
-  return response.json();
+  return apiGet<string[]>('/api/rootbeers/containers');
 }
